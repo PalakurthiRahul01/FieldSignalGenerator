@@ -1,0 +1,15 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>Resource/icons/Defend Dynamics.png</file>
+    <file>Resources.qrc</file>
+    <file>Resources.qrc</file>
+    <file>Resources.qrc</file>
+    <file>Resource/icons/connected.png</file>
+    <file>Resource/icons/Defend Dynamics (1).ico</file>
+    <file>Resource/icons/Defend Dynamics.png</file>
+    <file>Resource/icons/disconnected.png</file>
+    <file>Resources.qrc</file>
+    <file>Resources.qrc</file>
+    <file>Resource/icons/checkmark.png</file>
+  </qresource>
+</RCC>
