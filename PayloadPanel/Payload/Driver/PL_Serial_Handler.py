@@ -81,9 +81,9 @@ class PL_Serial_Handler(QtCore.QObject):
             print(RecvData)
             return RecvData
         except Exception as e:
+
             self.ErrorFlag = True
             self.ErrorMsg = e
-
     ##################################################################################################################
     # def CMD_to_SetFreq(self, setfreq=500):
     #     self.ErrorFlag = False
@@ -128,55 +128,143 @@ class PL_Serial_Handler(QtCore.QObject):
             return False, str(e)
 
     ##################################################################################################################
+    # def CMD_to_SetAttn(self, attn=1):
+    #     self.ErrorFlag = False
+    #     self.ErrorMsg = False
+    #     try:
+    #         cmd = f':A{attn}\r'
+    #         print("Command Sent:", cmd)
+    #         Resp = self.InstWrite(cmd)
+    #         print(Resp)
+    #         if self.ErrorFlag != False:
+    #
+    #             print('Failed')
+    #             self.ErrorFlag = True
+    #             return False, f'Set Attn failed'
+    #         print('cmd sent')
+    #     except Exception as e:
+    #         self.ErrorFlag = True
+    #         self.ErrorMsg = e
+
     def CMD_to_SetAttn(self, attn=1):
+
         self.ErrorFlag = False
-        self.ErrorMsg = False
+        self.ErrorMsg = None
+
         try:
             cmd = f':A{attn}\r'
-            Resp = self.InstWrite(cmd)
-            print(Resp)
-            if self.ErrorFlag != False:
+            self.InstWrite(cmd)
+            print("Command Sent:", cmd)
+            if self.ErrorFlag:
                 print('Failed')
-                self.ErrorFlag = True
                 return False, f'Set Attn failed'
-            print('cmd sent')
+            response = self.InstRead()
+            if response:
+                print("Received:", response)
+                if hasattr(self, "TE_Edit"):
+                    self.TE_Edit.append(f"Set Attn → {attn}")
+                    self.TE_Edit.append(f"Instrument Reply → {response}")
+                    self.TE_Edit.append("-----------------------------")
+            return True, response
         except Exception as e:
             self.ErrorFlag = True
             self.ErrorMsg = e
 
+            if hasattr(self, "TE_Edit"):
+                self.TE_Edit.append(f"Error: {str(e)}")
+            return False, str(e)
+
     ##################################################################################################################
+    # def CMD_to_SetPRI(self, pri=100):
+    #     self.ErrorFlag = False
+    #     self.ErrorMsg = False
+    #     try:
+    #         cmd = f':R{pri}\r'
+    #         print("Command Sent:", cmd)
+    #         Resp = self.InstWrite(cmd)
+    #         print(Resp)
+    #         if self.ErrorFlag != False:
+    #             print('Failed')
+    #             self.ErrorFlag = True
+    #             return False, f'Set pri failed'
+    #         print('cmd sent')
+    #     except Exception as e:
+    #         self.ErrorFlag = True
+    #         self.ErrorMsg = e
     def CMD_to_SetPRI(self, pri=100):
+
         self.ErrorFlag = False
-        self.ErrorMsg = False
+        self.ErrorMsg = None
+
         try:
             cmd = f':R{pri}\r'
-            Resp = self.InstWrite(cmd)
-            print(Resp)
-            if self.ErrorFlag != False:
+            self.InstWrite(cmd)
+            print("Command Sent:", cmd)
+            if self.ErrorFlag:
                 print('Failed')
-                self.ErrorFlag = True
-                return False, f'Set pri failed'
-            print('cmd sent')
+                return False, f'Set PRI failed'
+            response = self.InstRead()
+            if response:
+                print("Received:", response)
+                if hasattr(self, "TE_Edit"):
+                    self.TE_Edit.append(f"Set PRI → {pri}")
+                    self.TE_Edit.append(f"Instrument Reply → {response}")
+                    self.TE_Edit.append("-----------------------------")
+            return True, response
         except Exception as e:
             self.ErrorFlag = True
             self.ErrorMsg = e
+            if hasattr(self, "TE_Edit"):
+                self.TE_Edit.append(f"Error: {str(e)}")
+            return False, str(e)
 
     ##################################################################################################################
+    # def CMD_to_SetPW(self, pw=1):
+    #     self.ErrorFlag = False
+    #     self.ErrorMsg = False
+    #     try:
+    #         cmd = f':W{pw}\r'
+    #         print("Command Sent:", cmd)
+    #         Resp = self.InstWrite(cmd)
+    #
+    #         print(Resp)
+    #         if self.ErrorFlag != False:
+    #             print('Failed')
+    #             self.ErrorFlag = True
+    #             return False, f'Set pw failed'
+    #         print('cmd sent')
+    #     except Exception as e:
+    #         self.ErrorFlag = True
+    #         self.ErrorMsg = e
+
     def CMD_to_SetPW(self, pw=1):
+
         self.ErrorFlag = False
-        self.ErrorMsg = False
+        self.ErrorMsg = None
         try:
             cmd = f':W{pw}\r'
-            Resp = self.InstWrite(cmd)
-            print(Resp)
-            if self.ErrorFlag != False:
-                print('Failed')
-                self.ErrorFlag = True
-                return False, f'Set pw failed'
-            print('cmd sent')
+            self.InstWrite(cmd)
+            print("Command Sent:", cmd)
+            if self.ErrorFlag:
+                return False, f"Failed to Set PW {pw}"
+            response = self.InstRead()
+            if response:
+                print("Received:", response)
+
+                if hasattr(self, "TE_Edit"):
+                    self.TE_Edit.append(f"Set PW → {pw}")
+                    self.TE_Edit.append(f"Instrument Reply → {response}")
+                    self.TE_Edit.append("-----------------------------")
+
+            return True, response
+
         except Exception as e:
             self.ErrorFlag = True
             self.ErrorMsg = e
+            if hasattr(self, "TE_Edit"):
+                self.TE_Edit.append(f"Error: {str(e)}")
+
+            return False, str(e)
 
     ##################################################################################################################
     def CMD_to_SetLedgeDelay(self, ledge_delay=1):
@@ -228,6 +316,29 @@ class PL_Serial_Handler(QtCore.QObject):
         except Exception as e:
             self.ErrorFlag = True
             self.ErrorMsg = e
+    # def CMD_to_SetModulation(self, mod=1):
+    #     self.ErrorFlag = False
+    #     self.ErrorMsg = None
+    #     try:
+    #         cmd = f':M{mod}\r'
+    #
+    #         self.InstWrite(cmd)
+    #         print("Command Sent:", cmd)
+    #         if self.ErrorFlag:
+    #             print('Failed')
+    #             return False, 'Set modulation failed'
+    #         response = self.InstRead()
+    #         if response:
+    #             print("Received:", response)
+    #             if hasattr(self, "TE_Edit"):
+    #                 self.TE_Edit.append(f"Set Modulation → {mod}")
+    #                 self.TE_Edit.append(f"Reply → {response}")
+    #                 self.TE_Edit.append("------------------")
+    #         return True, response
+    #     except Exception as e:
+    #         self.ErrorFlag = True
+    #         self.ErrorMsg = e
+    #         return False, str(e)
 
     ##################################################################################################################
     def CMD_to_SetStatus(self, status=0):
@@ -245,6 +356,31 @@ class PL_Serial_Handler(QtCore.QObject):
         except Exception as e:
             self.ErrorFlag = True
             self.ErrorMsg = e
+
+    # def CMD_to_SetStatus(self, status=0):
+    #     self.ErrorFlag = False
+    #     self.ErrorMsg = None
+    #     try:
+    #         cmd = f':O{status}\r'
+    #         self.InstWrite(cmd)
+    #         print("Command Sent:", cmd)
+    #         if self.ErrorFlag:
+    #             print('Failed')
+    #             return False, 'Set status failed'
+    #         # Optional: read response (depends on device)
+    #         response = self.InstRead()
+    #         if response:
+    #             print("Received:", response)
+    #
+    #             if hasattr(self, "TE_Edit"):
+    #                 self.TE_Edit.append(f"Set Status → {status}")
+    #                 self.TE_Edit.append(f"Reply → {response}")
+    #                 self.TE_Edit.append("------------------")
+    #         return True, response
+    #     except Exception as e:
+    #         self.ErrorFlag = True
+    #         self.ErrorMsg = e
+    #         return False, str(e)
 
     ##################################################################################################################
     def CMD_to_SetServoPos(self, servo=0):
@@ -358,11 +494,11 @@ class PL_Serial_Handler(QtCore.QObject):
 #                             return False, self.ErrorMsg
 #                         self.SSGSetPW = pw
 
-                    status = self.CMD_to_SetModulation(mod=mod)
-                    time.sleep(1)
+                    # status = self.CMD_to_SetModulation(mod=mod)
+                    # time.sleep(1)
 #                     if self.ErrorFlag == True:
 #                         return False, self.ErrorMsg
-                    status = self.CMD_to_SetStatus(status=rf_status)
+#                     status = self.CMD_to_SetStatus(status=rf_status)
                     # time.sleep(1)
                     #                     if self.ErrorFlag == True:
                     #                         return False, self.ErrorMsg

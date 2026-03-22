@@ -674,7 +674,7 @@ class Ui_FieldSignalGenerator(object):
         self.groupBox_5.setTitle(_translate("FieldSignalGenerator", "Inputs"))
         self.PB_Set_Ledge_delay.setText(_translate("FieldSignalGenerator", " Set Ledge delay  "))
         self.label_2.setText(_translate("FieldSignalGenerator", "PW"))
-        self.SB_Attenuation.setSuffix(_translate("FieldSignalGenerator", " dBm"))
+        self.SB_Attenuation.setSuffix(_translate("FieldSignalGenerator", " dB"))
         self.label_tedge.setText(_translate("FieldSignalGenerator", "Tedge delay"))
         self.label_ledge.setText(_translate("FieldSignalGenerator", "Ledge delay"))
         self.SB_PRI.setSuffix(_translate("FieldSignalGenerator", " µs"))
@@ -691,7 +691,7 @@ class Ui_FieldSignalGenerator(object):
         self.PB_RF.setText(_translate("FieldSignalGenerator", "RF ON"))
         self.PB_RF_2.setText(_translate("FieldSignalGenerator", "MOD ON"))
         self.label_6.setText(_translate("FieldSignalGenerator", "Software developed by"))
-        self.label_7.setText(_translate("FieldSignalGenerator", "DEFEND DYNAMIX(OPC)PVT.LTD"))
+        self.label_7.setText(_translate("FieldSignalGenerator", "DEFEND DYNAMIX PVT.LTD"))
         self.label_8.setText(_translate("FieldSignalGenerator", "Hyderabad,Telangana"))
 from PayloadPanel.Common.CustomDoubleSpinBox import CustomDoubleSpinBox
 import PayloadPanel.Resources_rc

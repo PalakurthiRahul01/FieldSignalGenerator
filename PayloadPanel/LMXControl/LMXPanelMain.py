@@ -22,5 +22,5 @@ class LMXPanelWidget(QWidget, Ui_Form):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = LMXPanelWidget()
-    window.show()
+    window.showMaximized()
     sys.exit(app.exec_())

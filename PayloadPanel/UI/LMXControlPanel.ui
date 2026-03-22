@@ -565,7 +565,7 @@ QSpinBox::down-arrow {
                         </font>
                        </property>
                        <property name="suffix">
-                        <string> dBm</string>
+                        <string> dB</string>
                        </property>
                       </widget>
                      </item>
@@ -1191,7 +1191,7 @@ QPushButton:pressed {
                <string notr="true">color: rgb(255, 255, 255);</string>
               </property>
               <property name="text">
-               <string>DEFEND DYNAMIX(OPC)PVT.LTD</string>
+               <string>DEFEND DYNAMIX PVT.LTD</string>
               </property>
              </widget>
             </item>

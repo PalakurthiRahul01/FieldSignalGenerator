@@ -199,6 +199,7 @@ class LMXControlCntrl(QObject):
         pri_value = self.view.SB_PRI.value()
         self.middleware.SetPRI(pri=pri_value)
         self.input_data = {'pri': self.view.SB_PRI.value()}
+        self.Update_Inputs(data=self.input_data)
         if self.middleware.ErrorFlag:
             return False
         # self.emit_radar_parameters()
@@ -240,6 +241,7 @@ class LMXControlCntrl(QObject):
             attn = self.view.SB_Attenuation.value()
             self.middleware.SetAttn(attn=attn)
             self.input_data = {'attn': self.view.SB_Attenuation.value()}
+            self.Update_Inputs(data=self.input_data)
             if self.middleware.ErrorFlag == True:
                 return False
             return True
@@ -421,23 +423,44 @@ class LMXControlCntrl(QObject):
     #     self.ModulationStatusFlag = bool(new_status)
     #     return True
 
+    # def send_all_commands(self):
+    #     if self.middleware != None:
+    #         freq_status = self.SetFrequency()
+    #         if freq_status == False:
+    #             return False
+    #         pw_status = self.SetPulseWidth()
+    #         if pw_status == False:
+    #             return False
+    #         pri_status = self.SetPeriod()
+    #         if pri_status == False:
+    #             return False
+    #         attn_status = self.SetAttenuation()
+    #         if attn_status == False:
+    #             return False
+    #         return True
+    #     else:
+    #         return False
     def send_all_commands(self):
-        if self.middleware != None:
-            freq_status = self.SetFrequency()
-            if freq_status == False:
-                return False
-            pw_status = self.SetPulseWidth()
-            if pw_status == False:
-                return False
-            pri_status = self.SetPeriod()
-            if pri_status == False:
-                return False
-            attn_status = self.SetAttenuation()
-            if attn_status == False:
+
+        if self.middleware is None:
+            return False
+
+        try:
+            freq = self.view.SB_Frequency.value()
+            pri = self.view.SB_PRI.value()
+            pw = self.view.SB_PW.value()
+            attn = self.view.SB_Attenuation.value()
+            self.input_data = {'freq':freq,"pri":pri,'pw':pw,'attn':attn}
+            self.Update_Inputs(data=self.input_data)
+            self.middleware.SSG(freq, pri, pw, attn)
+
+            if self.middleware.ErrorFlag:
                 return False
             return True
-        else:
+        except Exception as e:
+            print("Error:", e)
             return False
+
 
 
     def handle_failsafe_message(self, message):

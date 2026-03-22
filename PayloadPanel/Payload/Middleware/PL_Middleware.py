@@ -110,6 +110,21 @@ class PL_MiddlewareThread(QThread):
             self.ErrorFlag = True
             self.ErrorMsg = e
 
+    def SSG(self, freq, pri, pw, attn):
+
+        self.ErrorFlag = False
+        self.ErrorMsg = None
+        try:
+            status = self.PLSerialHandler.SetSSG(freq=freq,pri=pri,pw=pw,attn=attn)
+            if not status:
+                self.ErrorFlag = True
+                return False
+            return True
+        except Exception as e:
+            self.ErrorFlag = True
+            self.ErrorMsg = e
+            return False
+
     def run(self):
         while self.running:
             try:
